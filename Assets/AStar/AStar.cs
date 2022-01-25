@@ -96,7 +96,6 @@ public class MoveToAction : GOAPAction
     }
 }
 
-
 public class AStar : MonoBehaviour
 {
     // Start is called before the first frame update
