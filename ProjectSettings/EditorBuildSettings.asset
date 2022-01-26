@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/ContextBehaviorPathfindingDemo.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/ContextDirectionSteeringDemo.unity
+    guid: b00ddb2ba7d818846b52f7f4109713b8
   m_configObjects: {}
