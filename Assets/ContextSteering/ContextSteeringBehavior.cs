@@ -9,14 +9,14 @@ public class ContextSteeringBehavior : MonoBehaviour
     [SerializeField] private int m_MapResolution;
     [SerializeField] private float m_MovementSpeed;
 
-    [SerializeField] private ContextChaseBehaviour[] m_Behaviors;
+    [SerializeField] private BaseContextBehavior[] m_Behaviors;
 
     private List<Vector2> m_Directions;
     private List<float> m_InterestMap;
     private List<float> m_DangerMap;
 
-    ContextChaseBehaviour m_ContextChaseBehavior;
-    ContextAvoidBehavior m_ContextAvoidBehavior;
+    //ContextChaseBehaviour m_ContextChaseBehavior;
+    //ContextAvoidBehavior m_ContextAvoidBehavior;
     Rigidbody2D m_Rigibody2D;
 
     [SerializeField] private Material mat;
@@ -25,12 +25,19 @@ public class ContextSteeringBehavior : MonoBehaviour
     void Start()
     {
         m_Directions = new List<Vector2>();
-        
-        m_ContextChaseBehavior = GetComponent<ContextChaseBehaviour>();
-        m_ContextAvoidBehavior = GetComponent<ContextAvoidBehavior>();
 
-        m_ContextChaseBehavior.InitializeContextMaps(m_MapResolution);
-        m_ContextAvoidBehavior.InitializeContextMaps(m_MapResolution);
+        m_Behaviors = GetComponents<BaseContextBehavior>();
+
+        foreach (BaseContextBehavior behavior in m_Behaviors)
+        {
+            behavior.InitializeContextMaps(m_MapResolution);
+        }
+
+        //m_ContextChaseBehavior = GetComponent<ContextChaseBehaviour>();
+        //m_ContextAvoidBehavior = GetComponent<ContextAvoidBehavior>();
+
+        //m_ContextChaseBehavior.InitializeContextMaps(m_MapResolution);
+        //m_ContextAvoidBehavior.InitializeContextMaps(m_MapResolution);
         
         m_Rigibody2D = GetComponent<Rigidbody2D>();
 
@@ -49,65 +56,105 @@ public class ContextSteeringBehavior : MonoBehaviour
 
         }
 
-        m_InterestMap = new List<float>();
-        m_DangerMap = new List<float>();
-
-        for (int i = 0; i < m_Directions.Count; i++)
-        {
-            m_InterestMap.Add(0);
-            m_DangerMap.Add(0);
-        }
+        m_InterestMap = new List<float>(new float[m_Directions.Count]);
+        m_DangerMap = new List<float>(new float[m_Directions.Count]);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        List<float> intersetMap = m_ContextChaseBehavior.GetInterestMap(gameObject.transform.position, ref m_Directions);
-        List<float> dangerMap = m_ContextAvoidBehavior.GetDangerMap(gameObject.transform.position, ref m_Directions);
+        m_InterestMap = new List<float>(new float[m_Directions.Count]);
+        m_DangerMap = new List<float>(new float[m_Directions.Count]);
 
-        for (int i = 0; i < dangerMap.Count; i++)
+        List<List<float>> interestMaps = new List<List<float>>();
+        List<List<float>> dangerMaps = new List<List<float>>();
+
+        foreach(BaseContextBehavior behavior in m_Behaviors)
         {
-            intersetMap[i] -= dangerMap[i];
+            interestMaps.Add(behavior.GetInterestMap(gameObject.transform.position, ref m_Directions));
+            dangerMaps.Add(behavior.GetDangerMap(gameObject.transform.position, ref m_Directions));
         }
 
 
-        float biggestInterest = Mathf.Max(intersetMap.ToArray());
-        Debug.Log(biggestInterest);
-        int indexOfBigges = intersetMap.FindIndex(x => (x == biggestInterest));
+        for (int i = 0; i < m_InterestMap.Count; i++)
+        {
+           // m_InterestMap[i] = Mathf.Max(interestMaps[i].ToArray());
 
+            float biggestInterestForThisSlot = 0;
+            for (int k = 0; k < interestMaps.Count; k++)
+            {
+                if (interestMaps[k][i] > biggestInterestForThisSlot)
+                    biggestInterestForThisSlot = interestMaps[k][i];
+            }
+            
+            m_InterestMap[i] = biggestInterestForThisSlot;
+        }
+
+        for (int i = 0; i < m_DangerMap.Count; i++)
+        {
+            float biggestInterestForThisSlot = 0;
+            for (int k = 0; k < dangerMaps.Count; k++)
+            {
+                if (dangerMaps[k][i] > biggestInterestForThisSlot)
+                    biggestInterestForThisSlot = dangerMaps[k][i];
+            }
+
+            m_DangerMap[i] = biggestInterestForThisSlot;
+        }
+
+
+
+        for (int i = 0; i < m_DangerMap.Count; i++)
+        {
+            m_InterestMap[i] -= m_DangerMap[i];
+        }
+
+
+        float biggestInterest = Mathf.Max(m_InterestMap.ToArray());
+        Debug.Log(biggestInterest);
+        int indexOfBigges = m_InterestMap.FindIndex(x => (x == biggestInterest));
+
+        Vector2 agentPosition = gameObject.transform.position;
         for (int i = 0; i < m_Directions.Count; i++)
         {
-            Vector2 agentPosition = gameObject.transform.position;
-            Vector2 moveDirection = m_Directions[i] * intersetMap[i];
+            Vector2 moveDirection = m_Directions[i] * m_InterestMap[i];
             Debug.DrawLine(gameObject.transform.position, agentPosition + moveDirection);
         }
 
         m_Rigibody2D.AddForce(m_Directions[indexOfBigges] * m_MovementSpeed * Time.deltaTime);
+        // transform.LookAt(new Vector2(m_Rigibody2D.velocity.x, m_Rigibody2D.velocity.y), new Vector2(m_Rigibody2D.velocity.x, m_Rigibody2D.velocity.y));
+
+
+        Vector2 lookdirection = (m_Rigibody2D.velocity + agentPosition) - agentPosition;
+
+        float angle = Mathf.Atan2(lookdirection.y, lookdirection.x) * Mathf.Rad2Deg - 90.0f;
+
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
     }
 
-    private void RenderLines()
-    {
-        List<float> intersetMap = m_ContextChaseBehavior.GetInterestMap(gameObject.transform.position, ref m_Directions);
+    //private void RenderLines()
+    //{
+    //    List<float> intersetMap = m_ContextChaseBehavior.GetInterestMap(gameObject.transform.position, ref m_Directions);
 
-        GL.PushMatrix();
-        mat.SetPass(0);
-        GL.LoadOrtho();
+    //    GL.PushMatrix();
+    //    mat.SetPass(0);
+    //    GL.LoadOrtho();
 
-        GL.Begin(GL.LINES);
-        GL.Color(Color.red);
+    //    GL.Begin(GL.LINES);
+    //    GL.Color(Color.red);
 
 
 
-        for (int i = 0; i < m_Directions.Count; i++)
-        {
-            Vector2 agentPosition = gameObject.transform.position;
-            Vector2 moveDirection = m_Directions[i] * intersetMap[i];
-            GL.Vertex(gameObject.transform.position);
-            GL.Vertex(agentPosition + moveDirection);
-        }
-        GL.PopMatrix();
-        GL.End();
-    }
+    //    for (int i = 0; i < m_Directions.Count; i++)
+    //    {
+    //        Vector2 agentPosition = gameObject.transform.position;
+    //        Vector2 moveDirection = m_Directions[i] * intersetMap[i];
+    //        GL.Vertex(gameObject.transform.position);
+    //        GL.Vertex(agentPosition + moveDirection);
+    //    }
+    //    GL.PopMatrix();
+    //    GL.End();
+    //}
 }

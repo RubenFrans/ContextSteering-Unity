@@ -25,7 +25,7 @@ public class ContextDirectionalSteering : BaseContextBehavior
 
         for (int i = 0; i < directions.Count; i++)
         {
-            m_InterestMap[i] = Vector2.Dot(gameObject.transform.right, directions[i]);
+            m_InterestMap[i] = Vector2.Dot(gameObject.transform.up * 0.8f, directions[i]);
         }
         
         return m_InterestMap;
