@@ -42,6 +42,12 @@ When we then have calculated both the final interest and danger map we subtract 
 This section will describe the implemetion of the context steering in the unity application.
 ### Context Merger
 #### Memeber variables
+- m_MapResolution: Determines the amount of directions used for calculating the final direction, also determines size of the interest and danger maps
+- m_MovementSpeed: Movement speed of the agent
+- m_Behaviors: Array of all Context behaviors associated to this agent
+- m_Directions: list of direction vectors
+- m_InterestMap: final interest map
+- m_DangerMap: final danger map
 ````
     [SerializeField] private int m_MapResolution;
     [SerializeField] private float m_MovementSpeed;
@@ -53,14 +59,9 @@ This section will describe the implemetion of the context steering in the unity 
     private List<float> m_DangerMap;
     Rigidbody2D m_Rigibody2D;
 ````
-- m_MapResolution: Determines the amount of directions used for calculating the final direction, also determines size of the interest and danger maps
-- m_MovementSpeed: Movement speed of the agent
-- m_Behaviors: Array of all Context behaviors associated to this agent
-- m_Directions: list of direction vectors
-- m_InterestMap: final interest map
-- m_DangerMap: final danger map
 
 #### Initializing the directions
+This function initializes all directions equally divided on a circle these are the directions that will be altered by the desires from the context maps
 ````
     void InitializeDirections()
     {
@@ -80,9 +81,70 @@ This section will describe the implemetion of the context steering in the unity 
     }
 ````
 
-This function initializes all directions equally divided on a circle these are the directions that will be altered by the desires from the context maps
 
 
+#### Merging maps
+First we gather all interest maps from all behaviors.
+````
+       List<List<float>> interestMaps = new List<List<float>>();
+        List<List<float>> dangerMaps = new List<List<float>>();
+
+        foreach(BaseContextBehavior behavior in m_Behaviors)
+        {
+            interestMaps.Add(behavior.GetInterestMap(gameObject.transform.position, ref m_Directions));
+            dangerMaps.Add(behavior.GetDangerMap(gameObject.transform.position, ref m_Directions));
+        }
+````
+Then we calculate the biggest value for a slot ranging all gathered interest maps. We do this for each direction (for each slot in the interest map)
+````
+        for (int i = 0; i < m_InterestMap.Count; i++)
+        {
+            float biggestInterestForThisSlot = 0;
+            for (int k = 0; k < interestMaps.Count; k++)
+            {
+                if (interestMaps[k][i] > biggestInterestForThisSlot)
+                    biggestInterestForThisSlot = interestMaps[k][i];
+            }
+            
+            m_InterestMap[i] = biggestInterestForThisSlot;
+        }
+````
+Then we do the exact same for all the danger map.
+````
+        for (int i = 0; i < m_DangerMap.Count; i++)
+        {
+            float biggestInterestForThisSlot = 0;
+            for (int k = 0; k < dangerMaps.Count; k++)
+            {
+                if (dangerMaps[k][i] > biggestInterestForThisSlot)
+                    biggestInterestForThisSlot = dangerMaps[k][i];
+            }
+
+            m_DangerMap[i] = biggestInterestForThisSlot;
+        }
+````
+
+#### Calculating final interest map
+We calculate the final interest map by subtracting our current interest map by the values of our danger map.
+````
+        for (int i = 0; i < m_DangerMap.Count; i++)
+        {
+            m_InterestMap[i] -= m_DangerMap[i];
+        }
+````
+Then finally we search for the biggest desire in our interest map and use that direction as a movement direction.
+````
+        float biggestInterest = Mathf.Max(m_InterestMap.ToArray());
+        int indexOfBiggestInterest = m_InterestMap.FindIndex(x => (x == biggestInterest));
+        m_Rigibody2D.AddForce(m_Directions[indexOfBiggestInterest] * m_MovementSpeed * Time.deltaTime);
+````
+
+For an Directional context steering behavior that for example always want to go forward it will be neccessary to alter the rotation of the agent to the moving direction.
+````
+        Vector2 lookdirection = (m_Rigibody2D.velocity + agentPosition) - agentPosition;
+        float angle = Mathf.Atan2(lookdirection.y, lookdirection.x) * Mathf.Rad2Deg - 90.0f;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+````
 
 ## Result
 ### ContextSteering behaviour using Chase and avoid
