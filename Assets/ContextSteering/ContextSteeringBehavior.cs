@@ -6,8 +6,11 @@ public class ContextSteeringBehavior : MonoBehaviour
 {
     [SerializeField] private float m_Max;
     [SerializeField] private float m_IntersetFallOff;
-    [SerializeField] private float m_MapResolution;
+    [SerializeField] private int m_MapResolution;
     [SerializeField] private float m_MovementSpeed;
+
+    [SerializeField] private ContextChaseBehaviour[] m_Behaviors;
+
     private List<Vector2> m_Directions;
     private List<float> m_InterestMap;
     private List<float> m_DangerMap;
@@ -22,8 +25,13 @@ public class ContextSteeringBehavior : MonoBehaviour
     void Start()
     {
         m_Directions = new List<Vector2>();
+        
         m_ContextChaseBehavior = GetComponent<ContextChaseBehaviour>();
         m_ContextAvoidBehavior = GetComponent<ContextAvoidBehavior>();
+
+        m_ContextChaseBehavior.InitializeContextMaps(m_MapResolution);
+        m_ContextAvoidBehavior.InitializeContextMaps(m_MapResolution);
+        
         m_Rigibody2D = GetComponent<Rigidbody2D>();
 
         InitializeDirections();
@@ -67,12 +75,9 @@ public class ContextSteeringBehavior : MonoBehaviour
         float biggestInterest = Mathf.Max(intersetMap.ToArray());
         Debug.Log(biggestInterest);
         int indexOfBigges = intersetMap.FindIndex(x => (x == biggestInterest));
+
         for (int i = 0; i < m_Directions.Count; i++)
         {
-
-            //if (intersetMap[i] > m_IntersetFallOff)
-            //    continue;
-
             Vector2 agentPosition = gameObject.transform.position;
             Vector2 moveDirection = m_Directions[i] * intersetMap[i];
             Debug.DrawLine(gameObject.transform.position, agentPosition + moveDirection);

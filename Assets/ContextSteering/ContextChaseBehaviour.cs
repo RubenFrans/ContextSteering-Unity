@@ -24,16 +24,12 @@ public class ContextChaseBehaviour : BaseContextBehavior
 
     public override List<float> GetDangerMap(Vector2 agentPosition, ref List<Vector2> directions)
     {
-        throw new System.NotImplementedException();
+        return m_DangerMap;
     }
 
     public override List<float> GetInterestMap(Vector2 agentPosition, ref List<Vector2> directions)
     {
-        m_InterestMap.Clear();
-
-        while (m_InterestMap.Count < directions.Count)
-            m_InterestMap.Add(0);
-
+        m_InterestMap = new List<float>(new float[directions.Count]);
         foreach(GameObject target in m_ChaseTargets)
         {
             Vector2 targetPos = target.transform.position;
@@ -60,19 +56,9 @@ public class ContextChaseBehaviour : BaseContextBehavior
                     }
                 }
 
-                //if(i >= m_InterestMap.Count)
-                //{
-                //    m_InterestMap.Insert(i, interestAmount);
-
-                //}
-                //else
-                //{
-                //}
-
             }
 
         }
-
 
         return m_InterestMap;
     }

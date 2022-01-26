@@ -18,10 +18,8 @@ public class ContextAvoidBehavior : BaseContextBehavior
     }
     public override List<float> GetDangerMap(Vector2 agentPosition, ref List<Vector2> directions)
     {
-        m_DangerMap.Clear();
 
-        while (m_DangerMap.Count < directions.Count)
-            m_DangerMap.Add(0);
+        m_DangerMap = new List<float>(new float[directions.Count]);
 
         foreach (GameObject avoidTarget in m_AvoidTargets)
         {
@@ -41,16 +39,6 @@ public class ContextAvoidBehavior : BaseContextBehavior
                 {
                     m_DangerMap[i] = dangerAmount;
                 }
-
-                //if (m_CenterBetweenTargets)
-                //{
-                //    m_InterestMap[i] = m_InterestMap[i] + interestAmount;
-
-                //}
-                //else
-                //{
-
-                //}
             }
         }
 
@@ -59,6 +47,6 @@ public class ContextAvoidBehavior : BaseContextBehavior
 
     public override List<float> GetInterestMap(Vector2 agentPostion, ref List<Vector2> directions)
     {
-        throw new System.NotImplementedException();
+        return m_InterestMap;
     }
 }

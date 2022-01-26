@@ -10,8 +10,12 @@ public abstract class BaseContextBehavior : MonoBehaviour
 
     protected void Start()
     {
-        m_InterestMap = new List<float>();
-        m_DangerMap = new List<float>();
+    }
+
+    public void InitializeContextMaps(int amountOfDirections)
+    {
+        m_InterestMap = new List<float>(new float[amountOfDirections]);
+        m_DangerMap = new List<float>(new float[amountOfDirections]);
     }
 
     abstract public List<float> GetInterestMap(Vector2 agentPostion, ref List<Vector2> directions);
