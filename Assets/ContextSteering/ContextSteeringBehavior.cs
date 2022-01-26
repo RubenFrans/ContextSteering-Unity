@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ContextSteeringBehavior : MonoBehaviour
 {
-    [SerializeField] private float m_Max;
-    [SerializeField] private float m_IntersetFallOff;
     [SerializeField] private int m_MapResolution;
     [SerializeField] private float m_MovementSpeed;
 
@@ -14,12 +12,7 @@ public class ContextSteeringBehavior : MonoBehaviour
     private List<Vector2> m_Directions;
     private List<float> m_InterestMap;
     private List<float> m_DangerMap;
-
-    //ContextChaseBehaviour m_ContextChaseBehavior;
-    //ContextAvoidBehavior m_ContextAvoidBehavior;
     Rigidbody2D m_Rigibody2D;
-
-    [SerializeField] private Material mat;
 
     // Start is called before the first frame update
     void Start()
@@ -32,12 +25,6 @@ public class ContextSteeringBehavior : MonoBehaviour
         {
             behavior.InitializeContextMaps(m_MapResolution);
         }
-
-        //m_ContextChaseBehavior = GetComponent<ContextChaseBehaviour>();
-        //m_ContextAvoidBehavior = GetComponent<ContextAvoidBehavior>();
-
-        //m_ContextChaseBehavior.InitializeContextMaps(m_MapResolution);
-        //m_ContextAvoidBehavior.InitializeContextMaps(m_MapResolution);
         
         m_Rigibody2D = GetComponent<Rigidbody2D>();
 
@@ -79,8 +66,6 @@ public class ContextSteeringBehavior : MonoBehaviour
 
         for (int i = 0; i < m_InterestMap.Count; i++)
         {
-           // m_InterestMap[i] = Mathf.Max(interestMaps[i].ToArray());
-
             float biggestInterestForThisSlot = 0;
             for (int k = 0; k < interestMaps.Count; k++)
             {
@@ -113,7 +98,7 @@ public class ContextSteeringBehavior : MonoBehaviour
 
         float biggestInterest = Mathf.Max(m_InterestMap.ToArray());
         Debug.Log(biggestInterest);
-        int indexOfBigges = m_InterestMap.FindIndex(x => (x == biggestInterest));
+        int indexOfBiggestInterest = m_InterestMap.FindIndex(x => (x == biggestInterest));
 
         Vector2 agentPosition = gameObject.transform.position;
         for (int i = 0; i < m_Directions.Count; i++)
@@ -122,39 +107,14 @@ public class ContextSteeringBehavior : MonoBehaviour
             Debug.DrawLine(gameObject.transform.position, agentPosition + moveDirection);
         }
 
-        m_Rigibody2D.AddForce(m_Directions[indexOfBigges] * m_MovementSpeed * Time.deltaTime);
-        // transform.LookAt(new Vector2(m_Rigibody2D.velocity.x, m_Rigibody2D.velocity.y), new Vector2(m_Rigibody2D.velocity.x, m_Rigibody2D.velocity.y));
+        m_Rigibody2D.AddForce(m_Directions[indexOfBiggestInterest] * m_MovementSpeed * Time.deltaTime);
 
-
+        /*
+         *  ROTATE AGENT TO MOVEMEN DIRECTION
+         */
         Vector2 lookdirection = (m_Rigibody2D.velocity + agentPosition) - agentPosition;
-
         float angle = Mathf.Atan2(lookdirection.y, lookdirection.x) * Mathf.Rad2Deg - 90.0f;
-
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
     }
-
-    //private void RenderLines()
-    //{
-    //    List<float> intersetMap = m_ContextChaseBehavior.GetInterestMap(gameObject.transform.position, ref m_Directions);
-
-    //    GL.PushMatrix();
-    //    mat.SetPass(0);
-    //    GL.LoadOrtho();
-
-    //    GL.Begin(GL.LINES);
-    //    GL.Color(Color.red);
-
-
-
-    //    for (int i = 0; i < m_Directions.Count; i++)
-    //    {
-    //        Vector2 agentPosition = gameObject.transform.position;
-    //        Vector2 moveDirection = m_Directions[i] * intersetMap[i];
-    //        GL.Vertex(gameObject.transform.position);
-    //        GL.Vertex(agentPosition + moveDirection);
-    //    }
-    //    GL.PopMatrix();
-    //    GL.End();
-    //}
 }

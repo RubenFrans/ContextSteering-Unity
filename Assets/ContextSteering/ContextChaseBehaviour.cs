@@ -8,12 +8,7 @@ public class ContextChaseBehaviour : BaseContextBehavior
     const string CHASE_TARGETS_TAG = "ChaseTarget";
 
     [SerializeField] private float m_MaxChaseDistance;
-
-    [SerializeField] private GameObject m_Target;
-    public GameObject ChaseTarget { get { return m_Target;  } set { m_Target = value; } }
-
     private GameObject[] m_ChaseTargets;
-
     [SerializeField] private bool m_CenterBetweenTargets;
 
     private new void Start()

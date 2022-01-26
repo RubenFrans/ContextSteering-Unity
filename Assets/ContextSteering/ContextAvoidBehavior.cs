@@ -6,8 +6,8 @@ public class ContextAvoidBehavior : BaseContextBehavior
 {
 
     [SerializeField] private float m_MaxAvoidDistance;
-
     private GameObject[] m_AvoidTargets;
+
     // Start is called before the first frame update
     private new void Start()
     {
