@@ -32,7 +32,7 @@ The context merger will gather all interest and danger maps from all context beh
 
 #### How the context maps are merged
 
-
+First all context maps are gathered by the context merger to build a final interest and danger map to calculate the final direction.
 
 ## Implementation
 
