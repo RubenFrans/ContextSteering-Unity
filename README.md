@@ -146,6 +146,59 @@ For an Directional context steering behavior that for example always want to go 
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 ````
 
+### Base context behavior
+The base context behavior is the base class where all other context steering behaviors are derived from. This abstract class specifies the GetInterestMap() and GetDangerMap() functions. These functions are to be implemented by derriving sub classes to create and return the interest and dangermap respectivly.
+````
+    abstract public List<float> GetInterestMap(Vector2 agentPostion, ref List<Vector2> directions);
+    abstract public List<float> GetDangerMap(Vector2 agentPostion, ref List<Vector2> directions);
+````
+### Chase context behavior
+This context behavior will calculate the interest and danger map for chasing down a target.
+#### Member variables
+m_MaxChaseDistance: Max distance to chase down a target
+m_ChaseTargets: Array of targets to chase
+````
+    [SerializeField] private float m_MaxChaseDistance;
+    private GameObject[] m_ChaseTargets;
+````
+#### GetInterestMap
+Calculating the interest map based on the distance that the agent is from the target. How closer the agent is the higher the interest will be.
+````
+    public override List<float> GetInterestMap(Vector2 agentPosition, ref List<Vector2> directions)
+    {
+        m_InterestMap = new List<float>(new float[directions.Count]);
+        foreach(GameObject target in m_ChaseTargets)
+        {
+            Vector2 targetPos = target.transform.position;
+            Vector2 toTarget = targetPos - agentPosition;
+
+            if (toTarget.magnitude > m_MaxChaseDistance)
+                continue;
+
+            for (int i = 0; i < directions.Count; i++)
+            {
+                float interestAmount = Vector2.Dot(toTarget, directions[i]) / toTarget.magnitude;
+                Debug.Log(i);
+
+                if (m_CenterBetweenTargets)
+                {
+                    m_InterestMap[i] = m_InterestMap[i] + interestAmount;
+                }
+                else
+                {
+                    if(interestAmount > m_InterestMap[i])
+                    {
+                        m_InterestMap[i] = interestAmount;
+                    }
+                }
+            }
+        }
+        return m_InterestMap;
+    }
+````
+### Avoid context behavior
+
+### Directional context behavior
 ## Result
 ### ContextSteering behaviour using Chase and avoid
 ![ContextSteeringPathFinding](https://user-images.githubusercontent.com/41028126/151200242-e4261247-d152-46fb-8299-14b755f4c060.gif)
