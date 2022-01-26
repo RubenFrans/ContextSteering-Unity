@@ -240,11 +240,30 @@ public override List<float> GetDangerMap(Vector2 agentPosition, ref List<Vector2
 ````
 
 ### Directional context behavior
+The directional context behavior is a very simple behavior that fills the interest context map to just go in the agents forward direction.
+#### GetInterestMap
+````
+    public override List<float> GetInterestMap(Vector2 agentPostion, ref List<Vector2> directions)
+    {
+        m_InterestMap = new List<float>(new float[directions.Count]);
+
+        for (int i = 0; i < directions.Count; i++)
+        {
+            m_InterestMap[i] = Vector2.Dot(gameObject.transform.up * 0.8f, directions[i]);
+        }
+        
+        return m_InterestMap;
+    }
+````
 ## Result
 ### ContextSteering behaviour using Chase and avoid
+In this example you can see the "Chase context behavior" in action together with the "avoid context behavior".
+By combining these we can get a simple pathfinding agent that finds the target through a simple corridor with obstacles.
 ![ContextSteeringPathFinding](https://user-images.githubusercontent.com/41028126/151200242-e4261247-d152-46fb-8299-14b755f4c060.gif)
 
 ### ContextSteering behaviour Directional steering and avoid
+In this example you can see the "directional context steering" and the "avoid context steering" in action.
+This is a really nice example of the power of context steering. If you look at the implementation of these behaviors the are completed isolated from eachother. The only thing the directional behavior needs to worry about is showing its desire to go forward. And the avoid only shows its unintend of being close to avoid targets. But when these are combined we already get a seemingly smart AI agent that can traverse simple racetracks.
 ![ContextSteeringRacing](https://user-images.githubusercontent.com/41028126/151201575-8f0ae3fe-27a4-4245-b2f1-cb11f022bc0a.gif)
 
 ## Conclusion / Future Work
