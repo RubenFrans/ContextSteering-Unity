@@ -16,7 +16,11 @@ These simple steeringbehaviors can then be combined
 ## Implementation
 
 ## Result
+### ContextSteering behaviour using Chase and avoid
 ![ContextSteeringPathFinding](https://user-images.githubusercontent.com/41028126/151200242-e4261247-d152-46fb-8299-14b755f4c060.gif)
+
+### ContextSteering behaviour Directional steering and avoid
+![ContextSteeringRacing](https://user-images.githubusercontent.com/41028126/151201575-8f0ae3fe-27a4-4245-b2f1-cb11f022bc0a.gif)
 
 ## Conclusion / Future Work
 
