@@ -39,6 +39,50 @@ For both the interest and the danger map, the merger loops over all slots and pi
 When we then have calculated both the final interest and danger map we subtract each interest slot of our final interest map by its corresponding slot in the final danger map. This way the interests towards our goal are altered if there is and obstacle on our path.
 
 ## Implementation
+This section will describe the implemetion of the context steering in the unity application.
+### Context Merger
+#### Memeber variables
+````
+    [SerializeField] private int m_MapResolution;
+    [SerializeField] private float m_MovementSpeed;
+
+    [SerializeField] private BaseContextBehavior[] m_Behaviors;
+
+    private List<Vector2> m_Directions;
+    private List<float> m_InterestMap;
+    private List<float> m_DangerMap;
+    Rigidbody2D m_Rigibody2D;
+````
+- m_MapResolution: Determines the amount of directions used for calculating the final direction, also determines size of the interest and danger maps
+- m_MovementSpeed: Movement speed of the agent
+- m_Behaviors: Array of all Context behaviors associated to this agent
+- m_Directions: list of direction vectors
+- m_InterestMap: final interest map
+- m_DangerMap: final danger map
+
+#### Initializing the directions
+````
+    void InitializeDirections()
+    {
+        float twoPi = Mathf.PI * 2;
+        float directionInterval = twoPi / m_MapResolution;
+        for (int i = 0; i < m_MapResolution; i++)
+        {
+            float currentAngle = i * directionInterval;
+
+            m_Directions.Add(new Vector2(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle)));
+
+        }
+
+        m_InterestMap = new List<float>(new float[m_Directions.Count]);
+        m_DangerMap = new List<float>(new float[m_Directions.Count]);
+
+    }
+```
+
+This function initializes all directions equally divided on a circle these are the directions that will be altered by the desires from the context maps
+
+
 
 ## Result
 ### ContextSteering behaviour using Chase and avoid
