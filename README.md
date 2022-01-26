@@ -154,6 +154,7 @@ The base context behavior is the base class where all other context steering beh
 ````
 ### Chase context behavior
 This context behavior will calculate the interest and danger map for chasing down a target.
+Important to note is that the danger map is filled with zeros because the chase behavior only has desires towards a target direction.
 #### Member variables
 m_MaxChaseDistance: Max distance to chase down a target
 m_ChaseTargets: Array of targets to chase
@@ -197,6 +198,46 @@ Calculating the interest map based on the distance that the agent is from the ta
     }
 ````
 ### Avoid context behavior
+The avoid context behavior does the exact oposite from the chase behavior. Instead of filling the interest map, this behavior will fill its danger map to make to context merger know that it doesn't want to go into a certain direction.
+#### Member variables
+m_MaxAvoidDistance: max distance to have an avoid target influence the dangermap
+m_AvoidTarget: array of targets that the behavior wants to avoid
+````
+    [SerializeField] private float m_MaxAvoidDistance;
+    private GameObject[] m_AvoidTargets;
+````
+
+#### GetDangerMap
+````
+public override List<float> GetDangerMap(Vector2 agentPosition, ref List<Vector2> directions)
+    {
+
+        m_DangerMap = new List<float>(new float[directions.Count]);
+
+        foreach (GameObject avoidTarget in m_AvoidTargets)
+        {
+            Vector2 targetPos = avoidTarget.transform.position;
+            Vector2 toTarget = targetPos - agentPosition;
+
+            if (toTarget.magnitude > m_MaxAvoidDistance)
+                continue;
+
+            for (int i = 0; i < directions.Count; i++)
+            {
+                float dangerAmount = Vector2.Dot(toTarget, directions[i]) / toTarget.magnitude;
+                Debug.Log(i);
+
+
+                if (dangerAmount > m_DangerMap[i])
+                {
+                    m_DangerMap[i] = dangerAmount;
+                }
+            }
+        }
+
+        return m_DangerMap;
+    }
+````
 
 ### Directional context behavior
 ## Result
