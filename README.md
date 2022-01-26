@@ -266,9 +266,11 @@ In this example you can see the "directional context steering" and the "avoid co
 This is a really nice example of the power of context steering. If you look at the implementation of these behaviors the are decoupled from eachother. The only thing the directional behavior needs to worry about is showing its desire to go forward. And the avoid only shows its unintend of being close to avoid targets. But when these are combined we already get a seemingly smart AI agent that can traverse simple racetracks.
 ![ContextSteeringRacing](https://user-images.githubusercontent.com/41028126/151201575-8f0ae3fe-27a4-4245-b2f1-cb11f022bc0a.gif)
 
-## Conclusion / Future Work
-
+## Conclusion
+Context steering behaviors simple system of decoupled behaviors that is easy to maintain and implement while providing decently impressive results even with a basic implementation. Though one should first consider wheter this method of steering behaviors is a good fit for the game.
 ### Usage in games
+Context steering has been used in a variaty of games including but not limmited to.
+- F1 2011 by CodeMasters
 ## Sources
 - Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
     by Andrew Fray
@@ -276,4 +278,5 @@ This is a really nice example of the power of context steering. If you look at t
     https://jameskeats.com/portfolio/contextbhvr.html
 - Context behaviours know how to share
     https://andrewfray.wordpress.com/2013/03/26/context-behaviours-know-how-to-share/
-
+- Racing AI with Context Steering - Andrew Fray
+    https://www.youtube.com/watch?v=2fg-th5cTpg
