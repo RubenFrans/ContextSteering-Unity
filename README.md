@@ -17,7 +17,7 @@ Think of context steering as a steering behavior that wants to go in a certain a
 If it was just this, the agent would stand still because all directions have an equal length thus they all apply the same amount of force to the agent negating eachother. We alter the force applied by these directions by the desire of the behavior to go in a certain direction. 
 These scalar values of how desired or undesired a certain direction is are stored in context maps.
 ![Directions](https://user-images.githubusercontent.com/41028126/151255179-698c4187-62a6-4f96-9a4c-20d895df3d42.png)
-    image from: Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
+image from: Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
 ### Context maps
 Each context behavior has 2 context maps, an interest context map and a danger context map. The context steeringbehavior uses the interst map to represent its desire to go into a certain direction while the danger map represents the oposite.
 
@@ -28,7 +28,7 @@ Each slot of the danger map again corresponds to a direction the agent can move 
 
 Keep in mind that there should always be an equal amount of slots in both the interest map and danger map as there are directions the agent can move in.
 ![context map](https://user-images.githubusercontent.com/41028126/151255261-b1766052-473b-4a7b-b0f2-edc07f100a65.png)
-    image from: Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
+image from: Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
 ### Context Merger
 The context merger will gather all interest and danger maps from all context behaviors active on the AI agent and merge them together to get to a final direction vector result to move the agent with.
 
@@ -40,7 +40,7 @@ For both the interest and the danger map, the merger loops over all slots and pi
 
 When we then have calculated both the final interest and danger map we subtract each interest slot of our final interest map by its corresponding slot in the final danger map. This way the interests towards our goal are altered if there is and obstacle on our path.
 ![parsing context map](https://user-images.githubusercontent.com/41028126/151255362-ae85c3dd-fd2c-4733-8b7a-e6e608562433.png)
-    image from: Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
+image from: Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
 ## Implementation
 This section will describe the implemetion of context steering in the unity application.
 ### Context Merger
