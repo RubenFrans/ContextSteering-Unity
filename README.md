@@ -78,7 +78,7 @@ This section will describe the implemetion of the context steering in the unity 
         m_DangerMap = new List<float>(new float[m_Directions.Count]);
 
     }
-```
+````
 
 This function initializes all directions equally divided on a circle these are the directions that will be altered by the desires from the context maps
 
