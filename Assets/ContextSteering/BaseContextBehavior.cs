@@ -16,5 +16,5 @@ public abstract class BaseContextBehavior : MonoBehaviour
 
     abstract public List<float> GetInterestMap(Vector2 agentPostion, ref List<Vector2> directions);
 
-    abstract public List<float> GetDangerMap();
+    abstract public List<float> GetDangerMap(Vector2 agentPostion, ref List<Vector2> directions);
 }

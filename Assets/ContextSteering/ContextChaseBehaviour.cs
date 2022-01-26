@@ -7,12 +7,14 @@ public class ContextChaseBehaviour : BaseContextBehavior
 
     const string CHASE_TARGETS_TAG = "ChaseTarget";
 
-    [SerializeField] private float m_ChaseDistance;
+    [SerializeField] private float m_MaxChaseDistance;
 
     [SerializeField] private GameObject m_Target;
     public GameObject ChaseTarget { get { return m_Target;  } set { m_Target = value; } }
 
     private GameObject[] m_ChaseTargets;
+
+    [SerializeField] private bool m_CenterBetweenTargets;
 
     private new void Start()
     {
@@ -20,7 +22,7 @@ public class ContextChaseBehaviour : BaseContextBehavior
         m_ChaseTargets = GameObject.FindGameObjectsWithTag(CHASE_TARGETS_TAG);
     }
 
-    public override List<float> GetDangerMap()
+    public override List<float> GetDangerMap(Vector2 agentPosition, ref List<Vector2> directions)
     {
         throw new System.NotImplementedException();
     }
@@ -28,23 +30,44 @@ public class ContextChaseBehaviour : BaseContextBehavior
     public override List<float> GetInterestMap(Vector2 agentPosition, ref List<Vector2> directions)
     {
         m_InterestMap.Clear();
+
+        while (m_InterestMap.Count < directions.Count)
+            m_InterestMap.Add(0);
+
         foreach(GameObject target in m_ChaseTargets)
         {
             Vector2 targetPos = target.transform.position;
             Vector2 toTarget = targetPos - agentPosition;
+
+            if (toTarget.magnitude > m_MaxChaseDistance)
+                continue;
+
             for (int i = 0; i < directions.Count; i++)
             {
-                float interestAmount = Vector2.Dot(toTarget, directions[i]);
+                float interestAmount = Vector2.Dot(toTarget, directions[i]) / toTarget.magnitude;
                 Debug.Log(i);
-                if(i >= m_InterestMap.Count)
+
+                if (m_CenterBetweenTargets)
                 {
-                    m_InterestMap.Insert(i, interestAmount);
+                    m_InterestMap[i] = m_InterestMap[i] + interestAmount;
 
                 }
                 else
                 {
-                    m_InterestMap.Insert(i, m_InterestMap[i] + interestAmount);
+                    if(interestAmount > m_InterestMap[i])
+                    {
+                        m_InterestMap[i] = interestAmount;
+                    }
                 }
+
+                //if(i >= m_InterestMap.Count)
+                //{
+                //    m_InterestMap.Insert(i, interestAmount);
+
+                //}
+                //else
+                //{
+                //}
 
             }
 
@@ -52,5 +75,39 @@ public class ContextChaseBehaviour : BaseContextBehavior
 
 
         return m_InterestMap;
+    }
+
+    public void FillInterestMap(Vector2 agentPosition, ref List<Vector2> directions, ref List<float> interestMap)
+    {
+
+        foreach (GameObject target in m_ChaseTargets)
+        {
+            Vector2 targetPos = target.transform.position;
+            Vector2 toTarget = targetPos - agentPosition;
+
+            if (toTarget.magnitude > m_MaxChaseDistance)
+                continue;
+
+            for (int i = 0; i < directions.Count; i++)
+            {
+                float interestAmount = Vector2.Dot(toTarget, directions[i]) / toTarget.magnitude;
+                Debug.Log(i);
+
+                if (m_CenterBetweenTargets)
+                {
+                    interestMap[i] = interestMap[i] + interestAmount;
+
+                }
+                else
+                {
+                    if (interestAmount > interestMap[i])
+                    {
+                        interestMap[i] = interestAmount;
+                    }
+                }
+
+            }
+
+        }
     }
 }
