@@ -34,6 +34,10 @@ The context merger will gather all interest and danger maps from all context beh
 
 First all context maps are gathered by the context merger to build a final interest and danger map to calculate the final direction.
 
+For both the interest and the danger map, the merger loops over all slots and picks the highest value it can find for that particular slot from all its corresponding maps (interest maps for final interest map, danger maps for final danger maps). We could also calculate the average to have for example even less of a desire to move to a spot where 2 avoid targets are but this is unneccesary because the avoidance of the first obstacle will already keep us safe from the obstacle behind it.
+
+When we then have calculated both the final interest and danger map we subtract each interest slot of our final interest map by its corresponding slot in the final danger map. This way the interests towards our goal are altered if there is and obstacle on our path.
+
 ## Implementation
 
 ## Result
@@ -45,4 +49,5 @@ First all context maps are gathered by the context merger to build a final inter
 
 ## Conclusion / Future Work
 
+### Usage in games
 ## Sources
