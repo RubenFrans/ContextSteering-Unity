@@ -263,10 +263,17 @@ By combining these we can get a simple pathfinding agent that finds the target t
 
 ### ContextSteering behaviour Directional steering and avoid
 In this example you can see the "directional context steering" and the "avoid context steering" in action.
-This is a really nice example of the power of context steering. If you look at the implementation of these behaviors the are completed isolated from eachother. The only thing the directional behavior needs to worry about is showing its desire to go forward. And the avoid only shows its unintend of being close to avoid targets. But when these are combined we already get a seemingly smart AI agent that can traverse simple racetracks.
+This is a really nice example of the power of context steering. If you look at the implementation of these behaviors the are decoupled from eachother. The only thing the directional behavior needs to worry about is showing its desire to go forward. And the avoid only shows its unintend of being close to avoid targets. But when these are combined we already get a seemingly smart AI agent that can traverse simple racetracks.
 ![ContextSteeringRacing](https://user-images.githubusercontent.com/41028126/151201575-8f0ae3fe-27a4-4245-b2f1-cb11f022bc0a.gif)
 
 ## Conclusion / Future Work
 
 ### Usage in games
 ## Sources
+- Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
+    by Andrew Fray
+- AI Context behaviors
+    https://jameskeats.com/portfolio/contextbhvr.html
+- Context behaviours know how to share
+    https://andrewfray.wordpress.com/2013/03/26/context-behaviours-know-how-to-share/
+
