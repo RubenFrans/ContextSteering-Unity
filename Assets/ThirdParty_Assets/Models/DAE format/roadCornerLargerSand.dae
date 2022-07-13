@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.4.1" xmlns="http://www.collada.org/2005/11/COLLADASchema">
+  <asset>
+    <created>0001-01-01T00:00:00</created>
+    <modified>0001-01-01T00:00:00</modified>
+    <unit name="meter" meter="1"/>
+<up_axis>Y_UP</up_axis>
+
+  </asset>
+  <library_images />
+  <library_materials>
+    <material id="ID1" name="DefaultMaterial">
+      <instance_effect url="#ID0" />
+    </material>
+    <material id="mat_ID4" name="sand">
+      <instance_effect url="#ID3" />
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="ID0">
+      <profile_COMMON>
+        <technique sid="COMMON">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000 0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.000000 0.000000 0.000000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.500000 0.500000 0.500000 1.000000</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.500000 0.500000 0.500000 1.000000</color>
+            </specular>
+            <shininess>
+              <float>50</float>
+            </shininess>
+            <index_of_refraction>
+              <float>1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="ID3">
+      <profile_COMMON>
+        <technique sid="COMMON">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000 0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.000000 0.000000 0.000000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.783019 0.719399 0.587264 1.000000</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.500000 0.500000 0.500000 1.000000</color>
+            </specular>
+            <shininess>
+              <float>50</float>
+            </shininess>
+            <index_of_refraction>
+              <float>1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="ID5">
+      <mesh>
+        <source id="ID6">
+          <float_array id="ID7" count="78">-0.530000 0.000000 0.000000 -0.499800 0.000000 0.460757 0.000000 0.000000 0.000000 -0.409718 0.000000 0.913631 -0.261295 0.000000 1.350873 -0.057070 0.000000 1.765000 0.025665 0.000000 0.391579 0.199463 0.000000 2.148928 0.102223 0.000000 0.776457 0.228361 0.000000 1.148050 0.503913 0.000000 2.496087 0.401924 0.000000 1.500000 0.619940 0.000000 1.826284 0.851072 0.000000 2.800537 0.878680 0.000000 2.121320 1.235000 0.000000 3.057070 1.173716 0.000000 2.380060 1.500000 0.000000 2.598076 1.649127 0.000000 3.261295 1.851950 0.000000 2.771639 2.086369 0.000000 3.409718 2.223543 0.000000 2.897777 2.539243 0.000000 3.499800 2.608421 0.000000 2.974334 3.000000 0.000000 3.530000 3.000000 0.000000 3.000000</float_array>
+          <technique_common>
+            <accessor count="26" source="#ID7" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="ID8">
+          <float_array id="ID9" count="78">0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000</float_array>
+          <technique_common>
+            <accessor count="26" source="#ID9" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="ID10">
+          <float_array id="ID11" count="52">-20.866142 0.000000 -19.677179 18.140057 0.000000 0.000000 -16.130636 35.969734 -10.287195 53.183956 -2.246838 69.488190 1.010449 15.416479 7.852862 84.603462 4.024508 30.569178 8.990606 45.198830 19.839096 98.271141 15.823771 59.055119 24.407085 71.900955 33.506779 110.257370 34.593689 83.516548 48.622047 120.357071 46.209282 93.703148 59.055119 102.286469 64.926277 128.397430 72.911407 109.119629 82.140503 134.240875 87.541061 114.085724 99.970177 137.787415 102.693756 117.099785 118.110237 138.976379 118.110237 118.110237</float_array>
+          <technique_common>
+            <accessor count="26" source="#ID11" stride="2">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="ID12">
+          <input semantic="POSITION" source="#ID6" />
+        </vertices>
+        <triangles count="24" material="mat_ID4">
+          <input offset="0" semantic="VERTEX" source="#ID12" />
+          <input offset="1" semantic="NORMAL" source="#ID8" />
+          <input offset="2" semantic="TEXCOORD" source="#ID10" />
+          <p>0 0 0 1 1 1 2 2 2 3 3 3 2 2 2 1 1 1 4 4 4 2 2 2 3 3 3 5 5 5 2 2 2 4 4 4 6 6 6 2 2 2 5 5 5 7 7 7 6 6 6 5 5 5 8 8 8 6 6 6 7 7 7 9 9 9 8 8 8 7 7 7 10 10 10 9 9 9 7 7 7 11 11 11 9 9 9 10 10 10 12 12 12 11 11 11 10 10 10 13 13 13 12 12 12 10 10 10 14 14 14 12 12 12 13 13 13 15 15 15 14 14 14 13 13 13 16 16 16 14 14 14 15 15 15 17 17 17 16 16 16 15 15 15 18 18 18 17 17 17 15 15 15 19 19 19 17 17 17 18 18 18 20 20 20 19 19 19 18 18 18 21 21 21 19 19 19 20 20 20 22 22 22 21 21 21 20 20 20 23 23 23 21 21 21 22 22 22 24 24 24 23 23 23 22 22 22 25 25 25 23 23 23 24 24 24 </p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="ID2">
+      <node id="ID13" name="roadCornerLargerSand">
+        <matrix>1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#ID5">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="mat_ID4" target="#mat_ID4" />
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#ID2" />
+  </scene>
+</COLLADA>
