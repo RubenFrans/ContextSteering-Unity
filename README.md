@@ -281,7 +281,7 @@ This is a really nice example of the power of context steering. If you look at t
 Context steering behaviors have a simple system of decoupled behaviors that is easy to maintain and implement while providing decently impressive results even with a basic implementation. Though one should first consider wheter this method of steering behaviors is a good fit for the game they are making.
 ### Usage in games
 Context steering has been used in a variaty of games including but not limmited to.
-- F1 2011 by CodeMasters
+- F1 2011 by Codemasters 
 ## Sources
 - Game AI 2 Chapter 18: Behavior-Driven steering at the macro scale
     by Andrew Fray
